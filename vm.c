@@ -24,7 +24,7 @@ void push(Value value){
     vm.stackTop++;
 }
 
-void pop() {
+Value pop() {
     vm.stackTop--;
     return *vm.stackTop;
 }
