@@ -56,6 +56,11 @@ static Token errorToken(const char* message) {
   return token;
 }
 
+static char peekNext() {
+  if(isAtEnd()) return '\0';
+  return scanner.current[1];
+}
+
 static void skipWhitespace(){
   for(;;){
     char c = peek();
@@ -68,6 +73,14 @@ static void skipWhitespace(){
       case '\n':
         scanner.line++;
         advance();
+        break;
+      case '/':
+        if(peekNext() == '/'){
+          // A comment goes until the EOL
+          while(peek() != '/n' && !isAtEnd()) advance();
+        } else {
+          return;
+        }
         break;
       default:
         return;
